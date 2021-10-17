@@ -29,4 +29,25 @@ public class World : MonoBehaviour
                 Quaternion.identity);
         }
     }
+
+    /**
+     * get the agents within the interest zone/radius of param agent
+     */
+    public List<Agent> getNeigh(Agent agent, float radius)
+    {
+        List<Agent> neighbours = new List<Agent>();
+
+        foreach (var possibleNeihbour in agents)
+        {
+            if (possibleNeihbour == agent)
+                continue;
+            if(Vector3.Distance(agent.x, possibleNeihbour.x) > radius)
+            {
+                neighbours.Add(possibleNeihbour);
+            }
+        }
+
+        return neighbours;
+    }
+
 }
