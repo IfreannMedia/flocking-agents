@@ -4,15 +4,37 @@ using UnityEngine;
 
 public class Agent : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    public Vector3 x, v, a;
+
+    public World world;
     void Start()
+    {
+        world = FindObjectOfType<World>();
+    }
+
+    void Update()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public Vector3 cohesion()
     {
-        
+        return Vector3.zero;
+    }
+
+    public Vector3 seperation()
+    {
+        return Vector3.zero;
+    }
+
+    public Vector3 allignment()
+    {
+        return Vector3.zero;
+    }
+
+    public Vector3 combine()
+    {
+        return Vector3.zero;
     }
 }
