@@ -330,8 +330,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agentPrefab: {fileID: 8009211506175014268, guid: 418864d71eec47a45bdadbca8553c274, type: 3}
-  nAgents: 30
+  nAgents: 200
   agents: []
+  bounds: 100
+  spawnR: 50
 --- !u!114 &1131237439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,12 +348,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rc: 30
   Rs: 30
-  Ra: 0
-  Kc: 0
-  Ks: 0
-  Ka: 0
-  maxA: 10
-  maxV: 10
+  Ra: 30
+  Kc: 100
+  Ks: 100
+  Ka: 100
+  maxA: 20
+  maxV: 20
 --- !u!4 &1131237440
 Transform:
   m_ObjectHideFlags: 0

@@ -18,8 +18,7 @@ public class Agent : MonoBehaviour
         x = transform.position;
 
          conf = FindObjectOfType<AgentConfig>();
-
-
+        v = new Vector3(Random.Range(-3, 3), 0, Random.Range(-3, 3));
     }
 
     /**
@@ -30,16 +29,20 @@ public class Agent : MonoBehaviour
     {
         float t = Time.deltaTime;
 
-        //a = combine();
-        a = seperation();
+        a = combine();
         a = Vector3.ClampMagnitude(a, conf.maxA);
 
         v = v + a * t;
         v = Vector3.ClampMagnitude(v, conf.maxV);
 
         x = x + v * t;
-         
+
+
+        wrapAround(ref x, -world.bounds, world.bounds);
         transform.position = x;
+
+        if(v.magnitude > 0)
+        transform.LookAt(x + v); // look at our position + velocity, a point just in front of us
     }
 
     public Vector3 cohesion()
@@ -58,7 +61,7 @@ public class Agent : MonoBehaviour
         r /= neighbours.Count;
 
         r -= this.x;
-        Vector3.Normalize(r);
+        r = Vector3.Normalize(r);
         return r;
     }
 
@@ -81,16 +84,46 @@ public class Agent : MonoBehaviour
             }
 
         }
+        // return direciton without magnitude
         return seperation.normalized;
     }
 
     public Vector3 allignment()
     {
-        return Vector3.zero;
+        Vector3 allignment = new Vector3();
+
+        var neighbours = world.getNeigh(this, conf.Ra);
+
+        foreach (var agent in neighbours)
+        {
+            allignment += agent.v;
+        }
+
+        // return direction without magnitude
+        return allignment.normalized;
     }
 
     public Vector3 combine()
     {
-        return Vector3.zero;
+        Vector3 combine = new Vector3();
+        Vector3 a = allignment();
+        Vector3 c = cohesion();
+        Vector3 s = seperation();
+
+        combine = conf.Kc * c + conf.Ks * s + conf.Ka * a;
+        return combine;
+    }
+
+
+    public void wrapAround(ref Vector3 v, float min, float max)
+    {
+        v.x = wrapAroundFloat(v.x, min, max);
+        v.y = wrapAroundFloat(v.y, min, max);
+        v.z = wrapAroundFloat(v.z, min, max);
+    }
+
+    private float wrapAroundFloat(float value, float min, float max)
+    {
+        return value > max ? min : value < min ? max : value;
     }
 }

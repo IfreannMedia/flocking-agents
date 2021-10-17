@@ -9,6 +9,10 @@ public class World : MonoBehaviour
 
     public int nAgents;
     public List<Agent> agents;
+
+    public float bounds;
+
+    public float spawnR;
     void Start()
     {
         this.spawn(agentPrefab, nAgents);
@@ -25,7 +29,7 @@ public class World : MonoBehaviour
         for (int i = 0; i < n; i++)
         {
             var obj = Instantiate(prefab,
-                new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)),
+                new Vector3(Random.Range(-spawnR, spawnR), 0, Random.Range(-spawnR, spawnR)),
                 Quaternion.identity);
         }
     }
